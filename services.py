@@ -8,7 +8,6 @@ def _data_to_server(obj):
             'question': ' '.join(obj.text.split(' ')[1:]),
             'gpt_mode': obj.text.split(' ')[0].lower(),
         }
-        print(response['question'])
         return response
     else:
         return {
