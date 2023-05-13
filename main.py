@@ -1,4 +1,3 @@
-import aiogram
 from aiogram import Bot, Dispatcher, executor, types
 import dotenv
 import os
@@ -17,7 +16,8 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
-    await message.reply("Привет!😊\nЯ самая умная нейросеть в мире🧐\nЗадавай мне любые вопросы!")
+    markup = types.ReplyKeyboardRemove()
+    await message.reply("Привет!😊\nЯ самая умная нейросеть в мире🧐\nЗадавай мне любые вопросы!", reply_markup=markup)
 
 @dp.message_handler(commands=['status'])
 async def status(message: types.Message):
