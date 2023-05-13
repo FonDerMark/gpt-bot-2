@@ -17,12 +17,20 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
-    await message.reply("Hi!\nI'm EchoBot!\nPowered by aiogram.")
+    await message.reply("Привет!😊\nЯ самая умная нейросеть в мире🧐\nЗадавай мне любые вопросы!")
 
-@dp.message_handler(text=['Статус'])
+@dp.message_handler(commands=['status'])
 async def status(message: types.Message):
     response = requests.post(f'http://{SERVER_HOST}/api/status/', data=_data_to_server(message)).text
-    await message.answer(response)
+    response_to_dict = json.loads(response)
+    username = response_to_dict['']
+    extra_messages = response_to_dict['extra_messages']
+    day_limit_of_messages = response_to_dict['extra_messages']
+    await message.answer(f'Привет {username}😊\nСуточный лимит сообщений: {day_limit_of_messages}\nПремиум сообщений:{extra_messages}')
+
+@dp.message_handler(commands=['buy'])
+async def send_welcome(message: types.Message):
+    await message.reply("Покупка")
 
 @dp.message_handler()
 async def request_to_gpt(message: types.Message):
