@@ -5,7 +5,9 @@ import requests
 import json
 
 from services import _data_to_server
+from tables import tables_init
 
+tables_init()
 dotenv.load_dotenv()
 
 TOKEN = os.environ['TOKEN']
