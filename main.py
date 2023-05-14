@@ -23,9 +23,9 @@ async def send_welcome(message: types.Message):
 async def status(message: types.Message):
     response = requests.post(f'http://{SERVER_HOST}/api/status/', data=_data_to_server(message)).text
     response_to_dict = json.loads(response)
-    username = response_to_dict['']
+    username = response_to_dict['username']
     extra_messages = response_to_dict['extra_messages']
-    day_limit_of_messages = response_to_dict['extra_messages']
+    day_limit_of_messages = response_to_dict['day_limit_of_messages']
     await message.answer(f'Привет {username}😊\nСуточный лимит сообщений: {day_limit_of_messages}\nПремиум сообщений:{extra_messages}')
 
 @dp.message_handler(commands=['buy'])
@@ -34,7 +34,11 @@ async def send_welcome(message: types.Message):
 
 @dp.message_handler()
 async def request_to_gpt(message: types.Message):
-    wait_msg = await message.answer('Запрос отправлен, ожидайте ответа🤓')
+    status_response = requests.post(f'http://{SERVER_HOST}/api/status/', data=_data_to_server(message)).text
+    response_to_dict = json.loads(status_response)
+    extra_messages = response_to_dict['extra_messages']
+    day_limit_of_messages = response_to_dict['day_limit_of_messages']
+    wait_msg = await message.answer(f'Запрос отправлен, ожидайте ответа🤓\nЗапросов осталось: {day_limit_of_messages}\nЭктра запросов: {extra_messages}')
     json_response = requests.post(f'http://{SERVER_HOST}/api/request/', data=_data_to_server(message)).text
     dict_response = json.loads(json_response)
     await wait_msg.delete()
