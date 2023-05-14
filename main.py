@@ -3,7 +3,9 @@ import dotenv
 import os
 import requests
 import json
+import sqlite3
 
+from sqlite_orm import get_or_greate_user
 from services import _data_to_server
 from tables import tables_init
 
@@ -15,9 +17,11 @@ SERVER_HOST = os.environ['SERVER_HOST']
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
+conn = sqlite3.connect('gpt.db')
 
 @dp.message_handler(commands=['start', 'help'])
 async def send_welcome(message: types.Message):
+    get_or_greate_user(msg=message)
     markup = types.ReplyKeyboardRemove()
     await message.reply("Привет!😊\nЯ самая умная нейросеть в мире🧐\nЗадавай мне любые вопросы!", reply_markup=markup)
 

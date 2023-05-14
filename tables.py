@@ -1,5 +1,4 @@
 import sqlite3
-import datetime
 
 conn = sqlite3.connect('gpt.db')
 
@@ -10,8 +9,8 @@ def create_tables():
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
     username TEXT,
-    firstname TEXT,
-    lastname TEXT,
+    first_name TEXT,
+    last_name TEXT,
     message_limit INTEGER,
     day_of_limit DATETIME,
     extra_messages INTEGER
